@@ -6,12 +6,16 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps: 
+      - uses: actions/checkout@v3
+      
       - name: Build app
         working-directory: ./aplicacao
         run: docker-compose up -d
   test:
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v3
+    
       - name: Reset PostgresDB
         working-directory: ./aplicacao
         run:  docker-compose run railsapp rails db:reset
@@ -21,6 +25,8 @@ jobs:
   lint:
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v3
+
       - name: Run lint app
         working-directory: ./aplicacao
         run:  docker-compose run railsapp bash -c "gem install rubocop; rubocop --fail-level F"
