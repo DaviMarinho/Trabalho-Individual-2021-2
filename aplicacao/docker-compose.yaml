@@ -10,6 +10,8 @@ services:
       - POSTGRES_PASSWORD=postgres
     ports:
       - '5432:5432'
+    networks:
+      - web
   railsapp:
     build:
       context: .
@@ -21,3 +23,21 @@ services:
       - .:/app
     depends_on:
       - postgresDB
+    networks:
+      - web
+  nginx:
+    container_name: nginx
+    restart: always
+    build:
+      context: .
+      dockerfile: Dockerfile.nginx
+    ports:
+      - 80:80
+    depends_on:
+      - app
+    networks:
+      - web
+
+networks:
+  web:
+    driver: bridge
