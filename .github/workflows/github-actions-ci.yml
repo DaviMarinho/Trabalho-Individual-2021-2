@@ -2,25 +2,25 @@ name: CI-Trabalho-GCES
 
 on: [push]
 
-defaults:
-  run:
-    working-directory: aplicacao
-
 jobs: 
   build:
     runs-on: ubuntu-latest
     steps: 
       - name: Build app
+        working-directory: ./aplicacao
         run: docker-compose up -d
   test:
     runs-on: ubuntu-latest
     steps:
       - name: Reset PostgresDB
+        working-directory: ./aplicacao
         run:  docker-compose run railsapp rails db:reset
       - name: Test app
+        working-directory: ./aplicacao
         run: docker-compose run railsapp rspec
   lint:
     runs-on: ubuntu-latest
     steps:
       - name: Run lint app
+        working-directory: ./aplicacao
         run:  docker-compose run railsapp bash -c "gem install rubocop; rubocop --fail-level F"
